@@ -18,6 +18,9 @@ Create a .env file locally or set environment variables in your hosting platform
 
 Variable & description 
 SERPAPI_KEY	                Your SerpAPI API key
+
 SERVICE_ACCOUNT_FILE_PATH	  Path to your Google service account JSON file
+
 SPREADSHEET_NAME	          Name of the Google Sheet where results will be appended
+
 FLASK_ENV	(Optional)        set to development for debugging
