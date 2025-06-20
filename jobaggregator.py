@@ -39,7 +39,11 @@ domains = [
 keywords = [
     '"business operations"',
     '"strategy associate"',
-    '"chief of staff"'
+    '"chief of staff"',
+    '"strategy & operations"',
+    '"strategy and operations"',
+    '"strategy analyst"',
+    '"senior strategy analyst"',
 ]
 
 def build_query(domains, keywords):
