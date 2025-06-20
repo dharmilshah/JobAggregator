@@ -80,6 +80,7 @@ def get_gsheet():
     )
     print("Scopes being used:", creds.scopes)
     gc = gspread.authorize(creds)
+    print("Authorization succeeded")
     return gc.open(SPREADSHEET_NAME).sheet1
 
 def append_job_results_to_sheet(sheet, results):
