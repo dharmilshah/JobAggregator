@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route('/run-jobs', methods=['GET'])
 def run_jobs():
     try:
-        results = jobaggreagtor.main()  # ensure your main script exposes a function
+        results = jobaggregator.run_job_aggregation()  # ensure your main script exposes a function
         return jsonify({"status": "success", "jobs_fetched": len(results)})
     except Exception as e:
         return jsonify({"status": "error", "error": str(e)}), 500
