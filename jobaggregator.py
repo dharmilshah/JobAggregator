@@ -4,6 +4,9 @@ from dotenv import load_dotenv
 import gspread
 from google.oauth2.service_account import Credentials
 from datetime import datetime
+import logging
+
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 
 # Load .env locally if exists
 load_dotenv()
@@ -42,7 +45,9 @@ keywords = [
 def build_query(domains, keywords):
     domain_query = " OR ".join(f"site:{d}" for d in domains)
     keyword_query = " OR ".join(keywords)
-    return f"{domain_query} ({keyword_query})"
+    query = f"{domain_query} ({keyword_query})"
+    logging.debug(f"Built search query: {query}")
+    return query
 
 def search_jobs(query):
     params = {
@@ -52,12 +57,14 @@ def search_jobs(query):
         "tbs": "qdr:d",  # Past 24 hours
         "num": 100
     }
-
+    logging.debug(f"Sending request to SerpAPI with params: {params}")
     response = requests.get(BASE_URL, params=params)
     if response.status_code != 200:
+        logging.error(f"Failed SerpAPI request: {response.status_code} — {response.text}")
         raise Exception(f"Failed request: {response.status_code} — {response.text}")
     
     data = response.json()
+    logging.debug(f"Received {len(data.get('organic_results', []))} results from SerpAPI")
     return [
         {
             "title": r.get("title"),
@@ -70,7 +77,9 @@ def search_jobs(query):
 # Google Sheets Setup
 def get_gsheet():
     import pathlib
+    logging.debug(f"Checking for service account file at {SERVICE_ACCOUNT_FILE}")
     if not os.path.isfile(SERVICE_ACCOUNT_FILE):
+        logging.error(f"Service account JSON not found at: {SERVICE_ACCOUNT_FILE}")
         raise Exception(f"Service account JSON not found at: {SERVICE_ACCOUNT_FILE}")
     
     SCOPES = [
@@ -81,10 +90,12 @@ def get_gsheet():
         SERVICE_ACCOUNT_FILE,
         scopes=SCOPES
     )
-    print("Scopes being used:", creds.scopes)
+    logging.debug(f"Service account credentials created with scopes: {creds.scopes}")
     gc = gspread.authorize(creds)
-    print("Authorization succeeded")
-    return gc.open(SPREADSHEET_NAME).sheet1
+    logging.debug("Authorized Google Sheets client successfully")
+    sheet = gc.open(SPREADSHEET_NAME).sheet1
+    logging.debug(f"Opened Google Sheet: {SPREADSHEET_NAME}")
+    return sheet
 
 def append_job_results_to_sheet(sheet, results):
     rows = []
@@ -93,8 +104,10 @@ def append_job_results_to_sheet(sheet, results):
         row = [timestamp, job['title'], job['link'], job['snippet']]
         rows.append(row)
     if rows:
+        ogging.debug(f"Appending {len(rows)} rows to Google Sheet")
         sheet.append_rows(rows, value_input_option='USER_ENTERED')
-
+    else:
+         logging.debug("No rows to append to Google Sheet")
 def main():
     query = build_query(domains, keywords)
     results = search_jobs(query)
