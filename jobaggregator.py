@@ -46,7 +46,6 @@ keywords = [
     '"strategy & operations"',
     '"business strategy"',
     '"corporate strategy"',
-    '"go-to-market strategy"',
     '"strategic initiatives"',
     '"strategic operations"',
     '"chief of staff"',
