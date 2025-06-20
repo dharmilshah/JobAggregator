@@ -73,7 +73,10 @@ def get_gsheet():
     if not os.path.isfile(SERVICE_ACCOUNT_FILE):
         raise Exception(f"Service account JSON not found at: {SERVICE_ACCOUNT_FILE}")
     
-    SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
+    SCOPES = [
+    'https://www.googleapis.com/auth/spreadsheets',
+    'https://www.googleapis.com/auth/drive'
+]
     creds = Credentials.from_service_account_file(
         SERVICE_ACCOUNT_FILE,
         scopes=SCOPES
