@@ -82,16 +82,22 @@ def get_gsheet():
     return gc.open(SPREADSHEET_NAME).sheet1
 
 def append_job_results_to_sheet(sheet, results):
+    rows = []
+    timestamp = datetime.utcnow().isoformat()
     for job in results:
-        timestamp = datetime.utcnow().isoformat()
         row = [timestamp, job['title'], job['link'], job['snippet']]
-        sheet.append_row(row)
+        rows.append(row)
+    if rows:
+        sheet.append_rows(rows, value_input_option='USER_ENTERED')
+
+def main():
+    query = build_query(domains, keywords)
+    results = search_jobs(query)
+    return results
 
 if __name__ == "__main__":
-    query = build_query(domains, keywords)
-    print(f"Running query:\n{query}\n")
     try:
-        results = search_jobs(query)
+        results = main()
         if results:
             sheet = get_gsheet()
             append_job_results_to_sheet(sheet, results)
