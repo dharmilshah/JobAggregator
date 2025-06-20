@@ -104,7 +104,7 @@ def append_job_results_to_sheet(sheet, results):
         row = [timestamp, job['title'], job['link'], job['snippet']]
         rows.append(row)
     if rows:
-        ogging.debug(f"Appending {len(rows)} rows to Google Sheet")
+        logging.debug(f"Appending {len(rows)} rows to Google Sheet")
         sheet.append_rows(rows, value_input_option='USER_ENTERED')
     else:
          logging.debug("No rows to append to Google Sheet")
