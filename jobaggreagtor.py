@@ -95,12 +95,17 @@ def main():
     results = search_jobs(query)
     return results
 
+def run_job_aggregation():
+    results = main()
+    if results:
+        sheet = get_gsheet()
+        append_job_results_to_sheet(sheet, results)
+    return results
+
 if __name__ == "__main__":
     try:
-        results = main()
+        results = run_job_aggregation()
         if results:
-            sheet = get_gsheet()
-            append_job_results_to_sheet(sheet, results)
             print(f"Appended {len(results)} job results to Google Sheet.")
         else:
             print("No job results found in the past 24 hours.")
