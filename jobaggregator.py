@@ -78,6 +78,7 @@ def get_gsheet():
         SERVICE_ACCOUNT_FILE,
         scopes=SCOPES
     )
+    print("Scopes being used:", creds.scopes)
     gc = gspread.authorize(creds)
     return gc.open(SPREADSHEET_NAME).sheet1
 
