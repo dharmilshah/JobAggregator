@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-import jobaggreagtor  # your main script imported as module
+import jobaggregator  # your main script imported as module
 
 app = Flask(__name__)
 
