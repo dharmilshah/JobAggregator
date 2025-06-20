@@ -102,11 +102,16 @@ def get_gsheet():
     return sheet
 
 def append_job_results_to_sheet(sheet, results):
+    # Fetch existing links from the sheet (assuming 'link' is the third column)
+    existing_rows = sheet.get_all_values()
+    existing_links = set(row[2] for row in existing_rows[1:] if len(row) > 2)
+    
     rows = []
     timestamp = datetime.utcnow().isoformat()
     for job in results:
-        row = [timestamp, job['title'], job['link'], job['snippet']]
-        rows.append(row)
+        if job['link'] not in existing_links:
+            row = [timestamp, job['title'], job['link'], job['snippet']]
+            rows.append(row)
     if rows:
         logging.debug(f"Appending {len(rows)} rows to Google Sheet")
         sheet.append_rows(rows, value_input_option='USER_ENTERED')
