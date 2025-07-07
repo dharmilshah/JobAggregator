@@ -2,13 +2,15 @@ import logging
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify,request
 import jobaggregator  # your main script imported as module
 
 app = Flask(__name__)
 
 @app.route('/run-jobs', methods=['GET'])
 def run_jobs():
+    if request.method != "GET":
+        return jsonify({"status": "ignored", "reason": "non-GET request"}), 200
     try:
         results = jobaggregator.run_job_aggregation()  # ensure your main script exposes a function
         logging.debug(f"Job aggregation completed successfully with {len(results)} results")
