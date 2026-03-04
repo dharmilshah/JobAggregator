@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 import gspread
 from google.oauth2.service_account import Credentials
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
 logging.basicConfig(level=logging.DEBUG, format='%(asctime)s %(levelname)s %(message)s')
@@ -71,13 +71,15 @@ def build_query(domains, keywords):
     return query
 
 def search_jobs(query):
-    params = {
-        "engine": "google",
-        "q": query,
-        "api_key": SERPAPI_KEY,
-        "tbs": "qdr:d",  # Past 24 hours
-        "num": 100
-    }
+three_days_ago = (datetime.utcnow() - timedelta(days=3)).strftime("%m/%d/%Y")
+params = {
+    "engine": "google",
+    "q": query,
+    "api_key": SERPAPI_KEY,
+    "num": 100,
+    "tbs": "cdr:1",
+    "cd_min": three_days_ago
+}
     logging.debug(f"Sending request to SerpAPI with params: {params}")
     response = requests.get(BASE_URL, params=params)
     if response.status_code != 200:
