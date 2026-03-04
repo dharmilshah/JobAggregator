@@ -37,20 +37,30 @@ domains = [
 ]
 
 keywords = [
-    '"business operations"',
-    '"strategy associate"',
-    '"strategy analyst"',
-    '"senior strategy analyst"',
-    '"strategy senior analyst"',
-    '"strategy and operations"',
-    '"strategy & operations"',
-    '"business strategy"',
-    '"corporate strategy"',
-    '"chief of staff"',
-    '"bizops"',
-    '"strategy manager"',
-    '"director of strategy"',
-    '"director of operations"'
+'"financial analyst"',
+'"finance analyst"',
+'"senior financial analyst"',
+'"senior finance analyst"',
+'"financial analyst i"',
+'"financial analyst ii"',
+'"financial analyst iii"',
+'"lead financial analyst"',
+'"principal financial analyst"',
+'"financial planning and analysis"',
+'"fp&a analyst"',
+'"senior fp&a analyst"',
+'"fp&a manager"',
+'"finance business partner"',
+'"commercial finance analyst"',
+'"corporate finance analyst"',
+'"strategic finance analyst"',
+'"finance operations analyst"',
+'"business finance analyst"',
+'"financial operations analyst"',
+    '"strategic finance"',
+'"finance associate"',
+'"finance lead"',
+    '"Senior Accountant"'
 ]
 
 def build_query(domains, keywords):
